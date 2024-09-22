@@ -1,0 +1,62 @@
+<!DOCTYPE html> 
+<script src="js/Login.js"></script>
+<script src="js/Event.js"></script>
+<script src="js/EventCalendar.js"></script>
+
+
+<script src="js/main.js"></script>
+<html lang="pt-PT"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Eventos de Rádio Amador</title> 
+    <link rel="stylesheet" href="css/styles.css"> 
+</head> 
+<body>
+    <h1>Eventos de Rádio Amador</h1>
+
+    <!-- Botão para alternar entre login e o formulário de evento -->
+    <button id="toggleLogin">LoginForm</button>
+    <button id="logout">logout</button>
+
+    <!-- Formulário de Login -->
+    <div id="loginForm">
+        <h2>Login</h2>
+        <form id="login">
+            <input type="text" id="username" placeholder="Nome de Usuário" required>
+            <input type="password" id="password" placeholder="Senha" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <!-- Formulário de Adicionar Evento (escondido até login bem-sucedido) -->
+    <div id="eventForm" style="display:none;">
+        <h2>Criar Novo Evento</h2>
+        <form id="newEventForm">
+            <input type="text" id="name" placeholder="Nome do Evento" required>
+            <select id="type">
+                <option value="online">Online</option>
+                <option value="presencial">Presencial</option>
+                <option value="no_ar">No AR</option>
+            </select>
+
+            <input type="text" id="frequencia" placeholder="frequencia">
+            <input type="text" id="modulacao" placeholder="modulacao">
+            <input type="text" id="canal" placeholder="Canal">
+            <input type="date" id="date" required>
+            <input type="time" id="time" required> <!-- Novo campo de hora -->
+
+            <input type="text" id="entity" placeholder="Entidade Responsável" required>
+            <textarea id="description" placeholder="Descrição"></textarea>
+            <button type="submit">Adicionar Evento</button>
+        </form>
+    </div>
+
+    <!-- Lista de eventos -->
+    <div id="eventList">
+        <h2>Lista de Eventos</h2>
+        <ul id="events"></ul>
+    </div>
+
+
+</body>
