@@ -6,7 +6,7 @@ class Login {
         this.toggleLoginButton = document.getElementById('toggleLogin');
         this.logoutButton = document.getElementById('logout'); // Botão de logout
         this.logoutButton.addEventListener('click', (e) => this.logoutUser(e));
-        this.loginForm.style.display = 'none;';
+        this.loginForm.style.display = 'none';
         
 
         this.loginForm.addEventListener('submit', (e) => this.loginUser(e));
@@ -65,6 +65,7 @@ class Login {
             document.getElementById('eventForm').style.display = 'block';
             this.logoutButton.style.display = 'block'; // Ocultar o botão de logout após logout
             this.toggleLoginButton.style.display = 'block';
+            this.toggleLoginButton.style.display = 'none';
 
         }
     }
