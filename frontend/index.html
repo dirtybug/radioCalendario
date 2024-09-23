@@ -41,7 +41,12 @@
             </select>
 
             <input type="text" id="frequencia" placeholder="frequencia">
-            <input type="text" id="modulacao" placeholder="modulacao">
+
+            <select id="modulacao" placeholder="modulacao" required > <!-- Substituído por um select -->
+                <option value="ssb">SSB</option>
+                <option value="fm">FM</option>
+                <option value="dmr">DMR</option>
+            </select>
             <input type="text" id="canal" placeholder="Canal">
             <input type="date" id="date" required>
             <input type="time" id="time" required> <!-- Novo campo de hora -->
