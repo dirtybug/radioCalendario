@@ -7,12 +7,14 @@ class EventCalendar {
         this.oneYearFromToday.setFullYear(this.today.getFullYear() + 1);
     }
 
-    // Função para formatar datas
+    // Função para formatar datas e horas
     formatDate(date) {
-        return new Date(date).toLocaleDateString(undefined, {
+        return new Date(date).toLocaleString(undefined, {
             day: '2-digit',
             month: 'short',
-            year: 'numeric'
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
         });
     }
 
@@ -45,7 +47,7 @@ class EventCalendar {
     generateICS(event) {
         const startDate = this.formatICSDate(event.date);
         const endDate = this.formatICSDate(new Date(new Date(event.date).getTime() + 60 * 60 * 1000)); // 1 hora de duração
-        
+
         const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Your App//Event Calendar//EN
