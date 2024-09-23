@@ -1,3 +1,2 @@
 cd .\backend
-
-npm run dev
+npm install
