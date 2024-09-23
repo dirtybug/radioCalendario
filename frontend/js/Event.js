@@ -25,7 +25,7 @@ class Event {
         event.preventDefault();
         const name = this.nameInput.value;
         const type = this.typeInput.value;
-        const date = this.dateInput.value;
+        const mmdy = this.dateInput.value;
         const entity = this.entityInput.value;
         const description = this.descriptionInput.value;
 
@@ -37,7 +37,7 @@ class Event {
 
         const token = localStorage.getItem('token');
         
-        const dateTime = new Date(`${date}T${time}`);
+        const date = new Date(`${mmdy}T${time}`);
 
 
 
@@ -47,7 +47,7 @@ class Event {
             mode,
             frequency,
             dmrChannel,
-            dateTime,
+            date,
             entity,
             description
         };
