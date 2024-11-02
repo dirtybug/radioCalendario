@@ -1,6 +1,9 @@
 import sqlite3
 import os
 
+import sqlite3
+import os
+
 def init_db(db_name="..\frontend\UserDB.sqlite"):
     # Check if the database file already exists
     if not os.path.exists(db_name):
@@ -12,7 +15,7 @@ def init_db(db_name="..\frontend\UserDB.sqlite"):
         cursor.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE NOT NULL,
+            email TEXT UNIQUE NOT NULL, -- Email will be the unique identifier
             password TEXT NOT NULL
         )
         ''')
@@ -28,7 +31,7 @@ def register_user(username, password, db_name="..\frontend\UserDB.sqlite"):
     cursor = conn.cursor()
     
     try:
-        cursor.execute('INSERT INTO users (username, password) VALUES (?, ?)', (username, password))
+        cursor.execute('INSERT INTO users (email, password) VALUES (?, ?)', (username, password))
         conn.commit()
         print(f"User '{username}' registered successfully.")
     except sqlite3.IntegrityError:
@@ -40,7 +43,7 @@ def delete_user(username, db_name="..\frontend\UserDB.sqlite"):
     conn = sqlite3.connect(db_name)
     cursor = conn.cursor()
     
-    cursor.execute('DELETE FROM users WHERE username = ?', (username,))
+    cursor.execute('DELETE FROM users WHERE email = ?', (username,))
     conn.commit()
     if cursor.rowcount == 0:
         print(f"No user found with username: {username}")
