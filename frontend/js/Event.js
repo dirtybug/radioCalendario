@@ -72,11 +72,41 @@ class Event {
 
         xhr.send(JSON.stringify(eventData));
     }
-
     loadEvents() {
         const xhr = new XMLHttpRequest();
+    
+        // First, try loading from the JSON cache
+        xhr.open("GET", "/cache/events.json", true);
+    
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    // Successfully loaded from cache
+                    const events = JSON.parse(xhr.responseText);
+                    const eventList = document.getElementById('events');
+                    const calendar = new EventCalendar(eventList, events);
+                    calendar.render(); // Render the calendar
+                } else if (xhr.status === 404) {
+                    // If cache is not available, fall back to the main API endpoint
+                    this.loadEventsFromAPI();
+                } else {
+                    console.error('Erro ao carregar eventos do cache');
+                }
+            }
+        };
+    
+        xhr.onerror = () => {
+            console.error('Erro ao carregar eventos do cache');
+            this.loadEventsFromAPI(); // If an error occurs, fall back to the main API
+        };
+    
+        xhr.send();
+    }
+    
+    loadEventsFromAPI() {
+        const xhr = new XMLHttpRequest();
         xhr.open("GET", "api/events", true);
-
+    
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 const events = JSON.parse(xhr.responseText);
@@ -87,11 +117,12 @@ class Event {
                 console.error('Erro ao carregar eventos');
             }
         };
-
+    
         xhr.onerror = () => {
             console.error('Erro ao carregar eventos');
         };
-
+    
         xhr.send();
     }
+    
 }

@@ -1,32 +1,55 @@
-const  event = require('../models/event'); // Importa o modelo corretamente
+const fs = require('fs');
+const path = require('path');
+const event = require('../models/event'); // Import the event model
 
-// Criar evento
+// Path to the JSON cache file
+const cacheDirPath = path.join(__dirname, '../../frontend/cache');
+const cacheFilePath = path.join(cacheDirPath, 'events.json');
+
+// Function to save events to JSON file
+const saveEventsToCache = async () => {
+    try {
+        // Check if the cache directory exists, if not, create it
+        if (!fs.existsSync(cacheDirPath)) {
+            fs.mkdirSync(cacheDirPath, { recursive: true });
+        }
+
+        const events = await event.showAllEvents(); // Get all events from the database
+        fs.writeFileSync(cacheFilePath, JSON.stringify(events, null, 2), 'utf-8');
+        return events;
+    } catch (error) {
+        console.error('Error saving events to cache:', error);
+        throw error;
+    }
+};
+
+// Create event
 const createEvent = async (req, res) => {
     const { name, type, mode, frequency, dmrChannel, date, entity, description } = req.body;
     try {
-        
-         await event.addEvent({ name, type, mode, frequency, dmrChannel, date, entity, description });
-        res.status(201).json({ message: 'Erro ao criar evento' });
+        await event.addEvent({ name, type, mode, frequency, dmrChannel, date, entity, description });
+        await saveEventsToCache(); // Update the cache after creating a new event
+        res.status(201).json({ message: 'Event created successfully' });
     } catch (error) {
-        res.status(500).json({ message: 'Erro ao criar evento', error });
+        res.status(500).json({ message: 'Error creating event', error });
     }
 };
 
-// Listar todos os eventos
+// Get all events from cache or regenerate if missing
 const getAllEvents = async (req, res) => {
     try {
-        const events = await event.showAllEvents();
-        if (events.length === 0) {
-            // Se não houver eventos, retorna um array vazio
-            res.status(200).json([]);
+        let events;
+        if (fs.existsSync(cacheFilePath)) {
+            // Read events from the cache file if it exists
+            events = JSON.parse(fs.readFileSync(cacheFilePath, 'utf-8'));
         } else {
-            // Se houver eventos, retorna os eventos
-            res.status(200).json(events);
+            // Regenerate the cache file by fetching from the database
+            events = await saveEventsToCache();
         }
+        res.status(200).json(events);
     } catch (error) {
-        res.status(500).json({ message: 'Erro ao buscar eventos', error });
+        res.status(500).json({ message: 'Error fetching events', error });
     }
 };
-
 
 module.exports = { createEvent, getAllEvents };

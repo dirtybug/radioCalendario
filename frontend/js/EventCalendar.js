@@ -45,17 +45,18 @@ class EventCalendar {
 
     // Função para gerar o conteúdo do arquivo ICS
     generateICS(event) {
-        const startDate = this.formatICSDate(event.date);
-        const endDate = this.formatICSDate(new Date(new Date(event.date).getTime() + 60 * 60 * 1000)); // 1 hora de duração
+        const date = new Date(event.date);
+        const start = date.toISOString().replace(/[-:.]/g, '');
+        const end = new Date(date.getTime() + 60 * 60 * 1000).toISOString().replace(/[-:.]/g, '');
 
         const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//Your App//Event Calendar//EN
 BEGIN:VEVENT
 UID:${event.name}@yourapp.com
-DTSTAMP:${this.formatICSDate(new Date())}
-DTSTART:${startDate}
-DTEND:${endDate}
+DTSTAMP:${new Date().toISOString().replace(/[-:.]/g, '')}
+DTSTART:${start}
+DTEND:${end}
 SUMMARY:${event.name}
 DESCRIPTION:${event.description}
 LOCATION:${event.type === 'online' ? 'Online' : 'Presencial'}
@@ -64,6 +65,7 @@ END:VCALENDAR`;
 
         return icsContent;
     }
+
 
     // Função para baixar o arquivo ICS
     downloadICS(event) {
@@ -94,10 +96,11 @@ END:VCALENDAR`;
             this.eventList.appendChild(noEventsMessage);
         } else {
             // Exibir eventos por mês
+            const fragment = document.createDocumentFragment();
             Object.keys(eventsByMonth).forEach(monthYear => {
                 const monthHeader = document.createElement('h3');
                 monthHeader.textContent = monthYear;
-                this.eventList.appendChild(monthHeader);
+                fragment.appendChild(monthHeader);
 
                 const ul = document.createElement('ul');
                 eventsByMonth[monthYear].forEach(event => {
@@ -116,8 +119,9 @@ END:VCALENDAR`;
                     li.appendChild(addToCalendarButton);
                     ul.appendChild(li);
                 });
-                this.eventList.appendChild(ul);
+                fragment.appendChild(ul);
             });
+            this.eventList.appendChild(fragment);
         }
     }
 }
