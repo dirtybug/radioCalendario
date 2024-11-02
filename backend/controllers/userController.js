@@ -30,7 +30,7 @@ const userLogin = async (req, res) => {
         req.session.userId = userInfo.id;
         res.json({ message: 'Login bem-sucedido' });
     } catch (error) {
-        res.status(500).json({ message: 'Erro ao fazer login', error });
+        res.sstatus(500).json({ message: 'Erro ao fazer login', error });
     }
 };
 

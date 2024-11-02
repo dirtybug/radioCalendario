@@ -2,7 +2,8 @@ class Event {
     constructor() {
         this.nameInput = document.getElementById('name');
         this.typeInput = document.getElementById('type');
-        this.dateInput = document.getElementById('date');
+       
+
         this.entityInput = document.getElementById('entity');
         this.descriptionInput = document.getElementById('description');
         this.eventForm = document.getElementById('newEventForm');
@@ -10,7 +11,10 @@ class Event {
         this.freqInput=document.getElementById('frequencia');
         this.modeInput=document.getElementById('modulacao');
         this.timeInput = document.getElementById('time'); // Novo campo de hora
+        this.dateInput = document.getElementById('date');
 
+        this.endTimeInput = document.getElementById('endTime'); // Novo campo de hora
+        this.endDateInput = document.getElementById('endDate');
 
 
         this.eventForm.addEventListener('submit', (e) => this.createEvent(e));
@@ -25,11 +29,13 @@ class Event {
         event.preventDefault();
         const name = this.nameInput.value;
         const type = this.typeInput.value;
-        const mmdy = this.dateInput.value;
+  
         const entity = this.entityInput.value;
         const description = this.descriptionInput.value;
-
+        const mmdy = this.dateInput.value;
         const time = this.timeInput.value; // Captura da hora
+        const endmmdy = this.endDateInput.value;
+        const endtime = this.endTimeInput.value; // Captura da hora
 
        const  mode=this.modeInput.value;
        const  frequency=this.freqInput.value;
@@ -38,6 +44,7 @@ class Event {
 
         
         const date = new Date(`${mmdy}T${time}`);
+        const enddate = new Date(`${endmmdy}T${endtime}`);
 
 
 
@@ -49,7 +56,8 @@ class Event {
             dmrChannel,
             date,
             entity,
-            description
+            description,
+            enddate
         };
 
         const xhr = new XMLHttpRequest();

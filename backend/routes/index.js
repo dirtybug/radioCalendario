@@ -9,7 +9,7 @@ const router = express.Router();
 router.post('/register', userRegister);  // Rota para registrar usuário
 router.post('/login', userLogin);        // Rota para login
 router.post('/logout',  userLogout); // Rota para logout (proteção com middleware)
-router.post('/isLoggedIn', userIsLogedin);
+router.get('/isLoggedIn', userIsLogedin);
 
 // Rotas de eventos
 router.post('/events', createEvent);     // Rota para criar eventos

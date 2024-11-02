@@ -1,11 +1,11 @@
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('../config/database');
+const { sequelizeUsers, sequelizeEvents } = require('../config/database');
 const bcrypt = require('bcrypt');
 
 
 class User {
     constructor() {
-        this.User = sequelize.define('User', {
+        this.User = sequelizeUsers.define('User', {
             id: {
                 type: DataTypes.INTEGER,
                 autoIncrement: true,
@@ -24,6 +24,11 @@ class User {
                 allowNull: false,
             },
         });
+        this.User.sync()
+        .then(() => console.log('User table synchronized successfully.'))
+        .catch((error) => console.error('Error synchronizing User table:', error));
+
+
     }
 
     // Método para adicionar um usuário (usado tanto pelo comando quanto pela API)

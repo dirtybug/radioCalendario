@@ -1,11 +1,15 @@
 
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
-const sequelize = new Sequelize({
+const sequelizeUsers = new Sequelize({
   dialect: 'sqlite',
-  storage: 'database.sqlite'
+  storage: 'UserDB.sqlite'
+});
+
+const sequelizeEvents = new Sequelize({
+  dialect: 'sqlite',
+  storage: 'EventDB.sqlite'
 });
 
 
-
-module.exports = { sequelize };
+module.exports = { sequelizeUsers,sequelizeEvents };

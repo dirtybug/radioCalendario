@@ -25,12 +25,12 @@ const saveEventsToCache = async () => {
 
 // Create event
 const createEvent = async (req, res) => {
-    const { name, type, mode, frequency, dmrChannel, date, entity, description } = req.body;
+    const { name, type, mode, frequency, dmrChannel, date,enddate, entity, description } = req.body;
     try {
         if (req.session && req.session.userId) {
            
         
-        await event.addEvent({ name, type, mode, frequency, dmrChannel, date, entity, description });
+        await event.addEvent({ name, type, mode, frequency, dmrChannel, date,enddate, entity, description });
         await saveEventsToCache(); // Update the cache after creating a new event
         res.status(201).json({ message: 'Event created successfully' });
     }

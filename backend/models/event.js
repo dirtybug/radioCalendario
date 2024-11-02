@@ -1,11 +1,11 @@
 
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('../config/database');
+const { sequelizeUsers, sequelizeEvents } = require('../config/database');
 
 
 class Event {
     constructor() {
-        this.eventModel = sequelize.define('Event', {
+        this.eventModel = sequelizeEvents.define('Event', {
             id: {
                 type: DataTypes.INTEGER,
                 autoIncrement: true,
@@ -32,6 +32,10 @@ class Event {
                 type: DataTypes.DATE,
                 allowNull: false,
             },
+            enddate: {
+                type: DataTypes.DATE,
+                allowNull: false,
+            },
             entity: {
                 type: DataTypes.STRING,
                 allowNull: false,
@@ -40,6 +44,9 @@ class Event {
                 type: DataTypes.TEXT,
             },
         });
+        this.eventModel.sync()
+        .then(() => console.log('eventModel table synchronized successfully.'))
+        .catch((error) => console.error('Error synchronizing eventModel table:', error));
     }
 
     // Method to add a new event
