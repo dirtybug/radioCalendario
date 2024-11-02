@@ -14,7 +14,9 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.11.3",
     "sqlite3": "^5.0.0",   
-    "sequelize": "^6.6.5"
+    "sequelize": "^6.6.5",
+    "express-session": "^1.17.1"
+
   },
   "devDependencies": {
     "nodemon": "^2.0.7"

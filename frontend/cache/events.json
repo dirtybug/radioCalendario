@@ -39,19 +39,6 @@
     "updatedAt": "2024-09-22T13:02:51.446Z"
   },
   {
-    "id": 4,
-    "name": "Andrade",
-    "type": "online",
-    "mode": "ssb",
-    "frequency": "14.200",
-    "dmrChannel": "111",
-    "date": "2025-01-21T21:04:00.000Z",
-    "entity": "aaa",
-    "description": "",
-    "createdAt": "2024-09-23T20:04:21.059Z",
-    "updatedAt": "2024-09-23T20:04:21.059Z"
-  },
-  {
     "id": 5,
     "name": "Net",
     "type": "no_ar",
@@ -115,5 +102,44 @@
     "description": "dddana",
     "createdAt": "2024-11-02T13:22:20.105Z",
     "updatedAt": "2024-11-02T13:22:20.105Z"
+  },
+  {
+    "id": 10,
+    "name": "Andrade",
+    "type": "online",
+    "mode": "ssb",
+    "frequency": "14.200",
+    "dmrChannel": "2",
+    "date": "2024-11-02T11:11:00.000Z",
+    "entity": "11",
+    "description": "111",
+    "createdAt": "2024-11-02T18:36:04.383Z",
+    "updatedAt": "2024-11-02T18:36:04.383Z"
+  },
+  {
+    "id": 11,
+    "name": "Andrade",
+    "type": "online",
+    "mode": "ssb",
+    "frequency": "14.200",
+    "dmrChannel": "2",
+    "date": "2024-11-02T11:11:00.000Z",
+    "entity": "11",
+    "description": "111",
+    "createdAt": "2024-11-02T18:40:55.587Z",
+    "updatedAt": "2024-11-02T18:40:55.587Z"
+  },
+  {
+    "id": 12,
+    "name": "Net",
+    "type": "online",
+    "mode": "ssb",
+    "frequency": "pp",
+    "dmrChannel": "pp",
+    "date": "2024-11-22T08:08:00.000Z",
+    "entity": "888",
+    "description": "888",
+    "createdAt": "2024-11-02T19:39:38.513Z",
+    "updatedAt": "2024-11-02T19:39:38.513Z"
   }
 ]

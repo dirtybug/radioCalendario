@@ -1,6 +1,6 @@
 const user  = require('../models/user');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+
 
 // Registrar novo usuário via API
 const userRegister = async (req, res) => {
@@ -18,7 +18,7 @@ const userLogin = async (req, res) => {
     const { email, password } = req.body; // Usar email para login
     try {
         const userInfo = await user.findUserByEmail( email );
-        if (!user) {
+        if (!userInfo) {
             return res.status(401).json({ message: 'Credenciais inválidas' });
         }
 
@@ -27,8 +27,8 @@ const userLogin = async (req, res) => {
             return res.status(401).json({ message: 'Credenciais inválidas' });
         }
 
-        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.json({ message: 'Login bem-sucedido', token });
+        req.session.userId = userInfo.id;
+        res.json({ message: 'Login bem-sucedido' });
     } catch (error) {
         res.status(500).json({ message: 'Erro ao fazer login', error });
     }
@@ -36,16 +36,29 @@ const userLogin = async (req, res) => {
 
 // Logout do usuário via API
 const userLogout = (req, res) => {
-    const token = req.headers['authorization'].split(' ')[1]; // Obtém o token do cabeçalho Authorization
-    if (!token) {
-        return res.status(400).json({ message: 'Token não fornecido' });
-    }
 
-    res.status(200).json({ message: 'Logout realizado com sucesso' });
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).json({ message: 'Erro ao fazer logout' });
+        }
+        res.clearCookie('connect.sid'); // Clear the session cookie
+        res.json({ message: 'Logout bem-sucedido' });
+    });
+
+};
+// Endpoint to check if the user is logged in
+const userIsLogedin = (req, res) => {
+    if (req.session && req.session.userId) {
+        res.status(200).json({ loggedIn: true, userId: req.session.userId });
+    } else {
+        res.status(200).json({ loggedIn: false });
+    }
 };
 
+// Add the isLoggedIn function to exports
+module.exports = { userRegister, userLogin, userLogout, userIsLogedin };
 
 
-module.exports = { userRegister, userLogin, userLogout };
+
 
 

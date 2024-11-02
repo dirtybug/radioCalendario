@@ -15,7 +15,7 @@ const saveEventsToCache = async () => {
         }
 
         const events = await event.showAllEvents(); // Get all events from the database
-        fs.writeFileSync(cacheFilePath, JSON.stringify(events, null, 2), 'utf-8');
+         fs.writeFileSync(cacheFilePath, JSON.stringify(events, null, 2), 'utf-8');
         return events;
     } catch (error) {
         console.error('Error saving events to cache:', error);
@@ -27,9 +27,17 @@ const saveEventsToCache = async () => {
 const createEvent = async (req, res) => {
     const { name, type, mode, frequency, dmrChannel, date, entity, description } = req.body;
     try {
+        if (req.session && req.session.userId) {
+           
+        
         await event.addEvent({ name, type, mode, frequency, dmrChannel, date, entity, description });
         await saveEventsToCache(); // Update the cache after creating a new event
         res.status(201).json({ message: 'Event created successfully' });
+    }
+    else
+    {
+        return res.status(401).json({ message: 'User not logged in' });
+    }
     } catch (error) {
         res.status(500).json({ message: 'Error creating event', error });
     }
@@ -52,4 +60,29 @@ const getAllEvents = async (req, res) => {
     }
 };
 
-module.exports = { createEvent, getAllEvents };
+const deleteEvent = async (req, res) => {
+     const { id } = req.body;;
+    try {
+        if (req.session && req.session.userId) {
+        
+
+        // Attempt to delete the event from the database
+        const result = await event.deleteEventById(id); // Assuming deleteEventById is a method in your event model
+        if (result) {
+            await saveEventsToCache(); // Update the cache after deleting an event
+            res.status(200).json({ message: 'Event deleted successfully' });
+        } else {
+            res.status(404).json({ message: 'Event not found' });
+        }
+    }
+    else {
+        res.status(401).json({ message: 'User not logged in' });
+    }
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting event', error });
+    }
+};
+
+// Other functions remain the same...
+
+module.exports = { createEvent, getAllEvents, deleteEvent };

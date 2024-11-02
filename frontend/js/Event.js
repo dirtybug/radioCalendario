@@ -35,7 +35,7 @@ class Event {
        const  frequency=this.freqInput.value;
        const  dmrChannel=this.canalInput.value;
 
-        const token = localStorage.getItem('token');
+
         
         const date = new Date(`${mmdy}T${time}`);
 
@@ -55,7 +55,7 @@ class Event {
         const xhr = new XMLHttpRequest();
         xhr.open("POST", "api/events", true);
         xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+
 
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4 && xhr.status === 201) {
@@ -73,56 +73,13 @@ class Event {
         xhr.send(JSON.stringify(eventData));
     }
     loadEvents() {
-        const xhr = new XMLHttpRequest();
-    
-        // First, try loading from the JSON cache
-        xhr.open("GET", "/cache/events.json", true);
-    
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    // Successfully loaded from cache
-                    const events = JSON.parse(xhr.responseText);
-                    const eventList = document.getElementById('events');
-                    const calendar = new EventCalendar(eventList, events);
-                    calendar.render(); // Render the calendar
-                } else if (xhr.status === 404) {
-                    // If cache is not available, fall back to the main API endpoint
-                    this.loadEventsFromAPI();
-                } else {
-                    console.error('Erro ao carregar eventos do cache');
-                }
-            }
-        };
-    
-        xhr.onerror = () => {
-            console.error('Erro ao carregar eventos do cache');
-            this.loadEventsFromAPI(); // If an error occurs, fall back to the main API
-        };
-    
-        xhr.send();
+        const calendar = new EventCalendar();
+        calendar.render(); // Render the calendar
     }
     
     loadEventsFromAPI() {
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", "api/events", true);
-    
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                const events = JSON.parse(xhr.responseText);
-                const eventList = document.getElementById('events');
-                const calendar = new EventCalendar(eventList, events);
-                calendar.render(); // Render the calendar
-            } else if (xhr.readyState === 4) {
-                console.error('Erro ao carregar eventos');
-            }
-        };
-    
-        xhr.onerror = () => {
-            console.error('Erro ao carregar eventos');
-        };
-    
-        xhr.send();
+        const calendar = new EventCalendar();
+        calendar.render(); // Render the calendar
     }
     
 }

@@ -4,10 +4,26 @@ const path = require('path'); // Importar o módulo 'path'
 const { sequelize } = require('./models');
 const eventRoutes = require('./routes');
 const commands=require('./commands');
-
-
+const session = require('express-session');
 
 const app = express();
+
+
+
+
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET || 'your_default_secret_key', // A strong secret key
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+            httpOnly: true,
+            maxAge: 3600000 // 1 hour
+        }
+    })
+);
+
+
 app.use(cors());
 app.use(express.json());
 

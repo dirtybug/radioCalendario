@@ -36,12 +36,15 @@ class Login {
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 const response = JSON.parse(xhr.responseText);
-                localStorage.setItem('token', response.token);
+                Login.isLoggedIn=true
                 document.getElementById('loginForm').style.display = 'none';
                 document.getElementById('eventForm').style.display = 'block';
                 this.logoutButton.style.display = ''; // Ocultar o botão de logout após logout
                 this.toggleLoginButton.style.display = ''; // Mostrar o botão de login novamente
+                const calendar = new EventCalendar();
+                calendar.render(); // Render the calendar
                 console.log('Login bem-sucedido!');
+
             } else if (xhr.readyState === 4) {
                 alert('Credenciais inválidas');
             }
@@ -54,10 +57,29 @@ class Login {
         const data = JSON.stringify({ email, password });
         xhr.send(data);
     }
-
+    checkLoginStatus() {
+        Login.isLoggedIn = false;
+    
+        // Create a synchronous XMLHttpRequest
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "/api/isLoggedIn", false); // 'false' makes the request synchronous
+    
+        xhr.setRequestHeader("Content-Type", "application/json");
+    
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                Login.isLoggedIn = response.loggedIn;
+            }
+        };
+    
+        xhr.send(); // Send the request
+    
+        return Login.isLoggedIn;
+    }
     checkAuth() {
-        const token = localStorage.getItem('token');
-        if (!token) {
+
+        if (!this.checkLoginStatus()) {
             document.getElementById('eventForm').style.display = 'none';
             this.logoutButton.style.display = 'none'; // Ocultar o botão de logout após logout
             this.toggleLoginButton.style.display = ''; // Mostrar o botão de login novamente
@@ -70,20 +92,22 @@ class Login {
         }
     }
     logoutUser(e) {
-        const token = localStorage.getItem('token');
+
 
         const xhr = new XMLHttpRequest();
         xhr.open("POST", "api/logout", true);
-        xhr.setRequestHeader("Authorization", `Bearer ${token}`); // Passa o token no header
+
 
         xhr.onreadystatechange = () => {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                localStorage.removeItem('token'); // Remove o token do localStorage
+                Login.isLoggedIn=false;
                 document.getElementById('loginForm').style.display = 'block';
                 document.getElementById('eventForm').style.display = 'none';
                 this.logoutButton.style.display = 'none'; // Ocultar o botão de logout após logout
                 this.toggleLoginButton.style.display = 'block'; // Mostrar o botão de login novamente
                 console.log('Logout realizado com sucesso!');
+                const calendar = new EventCalendar();
+                calendar.render(); // Render the calendar
             } else if (xhr.readyState === 4) {
                 console.error('Erro ao fazer logout');
             }

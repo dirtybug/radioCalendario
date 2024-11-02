@@ -1,10 +1,41 @@
 class EventCalendar {
-    constructor(eventList, events) {
-        this.eventList = eventList;
-        this.events = events;
+    constructor() {
+
+        this.eventList = document.getElementById('events');
+        
         this.today = new Date();
         this.oneYearFromToday = new Date(this.today);
         this.oneYearFromToday.setFullYear(this.today.getFullYear() + 1);
+    }
+    render() {
+        const xhr = new XMLHttpRequest();
+    
+        // First, try loading from the JSON cache
+        xhr.open("GET", "/cache/events.json", true);
+    
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    // Successfully loaded from cache
+
+                    this.events =  JSON.parse(xhr.responseText);
+                    this.loadEvents();
+
+                } else if (xhr.status === 404) {
+                    // If cache is not available, fall back to the main API endpoint
+                    this.loadEventsFromAPI();
+                } else {
+                    console.error('Erro ao carregar eventos do cache');
+                }
+            }
+        };
+    
+        xhr.onerror = () => {
+            console.error('Erro ao carregar eventos do cache');
+            this.loadEventsFromAPI(); // If an error occurs, fall back to the main API
+        };
+    
+        xhr.send();
     }
 
     // Função para formatar datas e horas
@@ -78,7 +109,9 @@ END:VCALENDAR`;
     }
 
     // Função para exibir o calendário
-    render() {
+       // Função para exibir o calendário
+       loadEvents() {
+     
         // Limpar a lista de eventos antes de adicionar novos eventos
         this.eventList.innerHTML = '';
 
@@ -115,13 +148,61 @@ END:VCALENDAR`;
                             this.downloadICS(event); // Gera e baixa o arquivo ICS
                         }
                     });
-
                     li.appendChild(addToCalendarButton);
+
+                    // Botão para excluir o evento (somente se o usuário estiver logado)
+                    
+                    if (Login.isLoggedIn) {
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'Excluir';
+                        deleteButton.addEventListener('click', () => {
+                            if (confirm('Tem certeza de que deseja excluir este evento?')) {
+                                this.deleteEvent(event.id, li);
+                            }
+                        });
+                        li.appendChild(deleteButton);
+                    }
+
                     ul.appendChild(li);
                 });
                 fragment.appendChild(ul);
             });
             this.eventList.appendChild(fragment);
+        }
+    }
+
+    // Função para excluir o evento
+    async deleteEvent(eventId, eventElement) {
+
+        if (!Login.isLoggedIn) {
+            console.error('Usuário não está autenticado');
+            return;
+        }
+    
+        try {
+            const xhr = new XMLHttpRequest();
+            xhr.open('DELETE', '/api/events', true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+    
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        alert('Evento excluído com sucesso');
+                        eventElement.remove(); // Remove the event element after deletion
+                    } else {
+                        console.error('Erro ao excluir o evento');
+                    }
+                }
+            };
+    
+            xhr.onerror = () => {
+                console.error('Erro ao excluir o evento');
+            };
+    
+            xhr.send(JSON.stringify({ id: eventId })); // Send the event ID in the body
+        } catch (error) {
+            console.error('Erro ao excluir o evento', error);
         }
     }
 }
