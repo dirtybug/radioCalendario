@@ -17,19 +17,21 @@
     "sqlite3": "^5.0.0",   
     "sequelize": "^6.6.5",
     "express-session": "^1.17.1",
-    "nodemon": "^2.0.7"
+    "webpack-cli": "^4.x.x",
+    "path-browserify": "^1.x.x",
+    "html-loader": "^2.x.x",
+    "mock-aws-s3": "^3.0.0",
+"aws-sdk": "^2.1030.0",
+"nock": "^13.0.0"
   },
   "devDependencies": {
     "webpack": "^5.x.x",
-    "webpack-cli": "^4.x.x",
     "babel-loader": "^8.x.x", 
     "@babel/core": "^7.x.x",
     "@babel/preset-env": "^7.x.x",
-    "path-browserify": "^1.x.x",
-    "os-browserify": "^0.3.0",
-    "bluebird": "^3.7.2",
+    "os-browserify": "^0.3.0", 
+    "bluebird": "^3.7.2", 
     "util": "^0.x.x",
-    "html-loader": "^2.x.x",
     "raw-loader": "^4.x.x" 
   }
 }
