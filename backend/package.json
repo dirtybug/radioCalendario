@@ -22,7 +22,11 @@
     "webpack-cli": "^4.x.x",
     "babel-loader": "^8.x.x", 
     "@babel/core": "^7.x.x",
-    "@babel/preset-env": "^7.x.x"
+    "@babel/preset-env": "^7.x.x",
+    "path-browserify": "^1.x.x",  
+    "os-browserify": "^1.x.x",   
+    "util": "^0.x.x" 
+
 
   }
 }
