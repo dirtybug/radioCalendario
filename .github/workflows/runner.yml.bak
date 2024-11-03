@@ -26,13 +26,11 @@ jobs:
       - uses: actions/checkout@v4
 
       # Runs a single command using the runners shell
-      - name: Install dependencies
-        run: |
-          cd backend  # Change to the backend directory
-          npm ci --unsafe-perm
+      - name: Run a one-line script
+        run: echo Hello, world!
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
-          cd backend  # Change to the backend directory
-          npm start
+          echo Add other actions to build,
+          echo test, and deploy your project.
