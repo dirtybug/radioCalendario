@@ -23,6 +23,7 @@ jobs:
       - name: Publish package
         run: |
           cd backend  # Change to the backend directory
-          npm run dev
+          npm start
+
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
