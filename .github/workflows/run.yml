@@ -9,17 +9,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2  # Ensure you're checking out the code
 
-      - name: List directory contents
-        run: ls -R  # List all directories and files to verify the structu
 
       - name: Install dependencies
         run: |
           cd backend  # Change to the backend directory
           npm ci --unsafe-perm
         
-      - name: List directory contents
-        run: ls -R  # List all directories and files to verify the structu
-  
+
       - name: Publish package
         run: |
           cd backend  # Change to the backend directory
