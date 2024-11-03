@@ -1,6 +1,7 @@
 
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
+
 const sequelizeUsers = new Sequelize({
   dialect: 'sqlite',
   storage: 'UserDB.sqlite'
