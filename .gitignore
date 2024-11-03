@@ -1,2 +1,3 @@
 backend/UserDB.sqlite
 /test/venv
+/backend/package-lock.json
