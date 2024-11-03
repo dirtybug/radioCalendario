@@ -19,8 +19,10 @@
     "sequelize": "^6.6.5",
     "express-session": "^1.17.1",
     "nodemon": "^2.0.7",
-    "@babel/core": "^7.0.0",  
-    "@babel/preset-env": "^7.0.0"
+
+    "babel-loader": "^8.x.x", 
+    "@babel/core": "^7.x.x",
+    "@babel/preset-env": "^7.x.x"
 
   }
 }
