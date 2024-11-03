@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './backend/server.js',  // Ensure this points to your server.js
+  entry: './server.js',  // Ensure this points to your server.js
   target: 'node',                 // Set the target to Node.js
   output: {
     filename: 'bundle.js',        // Output file name
