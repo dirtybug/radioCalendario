@@ -16,7 +16,10 @@ jobs:
         run: |
           cd backend  # Change to the backend directory
           npm install
-
+        
+      - name: List directory contents
+        run: ls -R  # List all directories and files to verify the structu
+  
       - name: Publish package
         run: |
           cd backend  # Change to the backend directory
