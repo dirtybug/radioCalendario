@@ -1,34 +1,41 @@
 const path = require('path');
 
 module.exports = {
-  entry: './server.js',  // Ensure this points to your server.js
-  target: 'node',                 // Set the target to Node.js
-  output: {
-    filename: 'bundle.js',        // Output file name
-    path: path.resolve(__dirname, 'dist'), // Output directory
-  },
-  resolve: {
-    fallback: {
-      fs: false,                  // Don't include polyfills for fs
-      path: require.resolve('path-browserify'), // Fallback for path
-      os: require.resolve('os-browserify/browser'), // Fallback for os
-      util: require.resolve('util/'), // Fallback for util
-      npm: false,                 // No fallback for npm
+    entry: './server.js', // Adjust based on your entry file
+    output: {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'dist'),
     },
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-          },
+    module: {
+        rules: [
+            {
+                test: /\.html$/,
+                use: 'html-loader',
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                },
+            },
+            {
+                test: /\.(css|scss)$/,
+                use: ['style-loader', 'css-loader', 'sass-loader'],
+            },
+        ],
+    },
+    resolve: {
+        fallback: {
+            "path": require.resolve("path-browserify"),
+            "os": require.resolve("os-browserify/browser"),
+            "fs": false,
+            "util": require.resolve("util/"),
+            "url": require.resolve("url/"),
+            "child_process": false,
         },
-      },
-    ],
-  },
-  mode: 'development',            // Change to 'production' when deploying
+    },
+    stats: {
+        errorDetails: true, // Add this line to show error details
+    },
 };
