@@ -21,8 +21,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd backend  # Change to the backend directory
-          rm -f package-lock.json  # Remove the existing lock file
-          npm ci --unsafe-perm
+          npm install --unsafe-perm  # Install packages
 
       - name: Build project
         run: |
