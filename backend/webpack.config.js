@@ -1,24 +1,34 @@
 const path = require('path');
 
 module.exports = {
-    entry: './backend/server.js', // Entry point of your application
-    output: {
-        filename: 'bundle.js', // Output filename
-        path: path.resolve(__dirname, 'dist'), // Output path
+  entry: './backend/server.js',  // Ensure this points to your server.js
+  target: 'node',                 // Set the target to Node.js
+  output: {
+    filename: 'bundle.js',        // Output file name
+    path: path.resolve(__dirname, 'dist'), // Output directory
+  },
+  resolve: {
+    fallback: {
+      fs: false,                  // Don't include polyfills for fs
+      path: require.resolve('path-browserify'), // Fallback for path
+      os: require.resolve('os-browserify/browser'), // Fallback for os
+      util: require.resolve('util/'), // Fallback for util
+      npm: false,                 // No fallback for npm
     },
-    mode: 'development', // Change to 'production' for production builds
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader', // If using Babel for transpilation
-                    options: {
-                        presets: ['@babel/preset-env'],
-                    },
-                },
-            },
-        ],
-    },
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+          },
+        },
+      },
+    ],
+  },
+  mode: 'development',            // Change to 'production' when deploying
 };
