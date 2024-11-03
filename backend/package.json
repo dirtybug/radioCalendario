@@ -19,7 +19,7 @@
     "sequelize": "^6.6.5",
     "express-session": "^1.17.1",
     "nodemon": "^2.0.7",
-
+    "webpack-cli": "^4.x.x",
     "babel-loader": "^8.x.x", 
     "@babel/core": "^7.x.x",
     "@babel/preset-env": "^7.x.x"
