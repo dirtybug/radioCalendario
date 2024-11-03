@@ -15,7 +15,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd backend  # Change to the backend directory
-          npm install
+          npm ci --unsafe-perm
         
       - name: List directory contents
         run: ls -R  # List all directories and files to verify the structu
