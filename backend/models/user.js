@@ -23,6 +23,9 @@ class User {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
+        }, {
+            // This option enables automatic management of createdAt and updatedAt fields
+            timestamps: true,
         });
         this.User.sync()
         .then(() => console.log('User table synchronized successfully.'))

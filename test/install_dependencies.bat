@@ -12,7 +12,7 @@ pip install webdriver-manager
 pip install pytest-html  :: Optional: for HTML test reports
 pip install pytest-cov   :: Optional: for coverage reports
 pip install pytest-xdist  :: Optional: for parallel test execution
-
+pip install bcrypt
 :: Notify completion
 echo Dependencies have been installed. You can now run the tests using pytest.
 pause

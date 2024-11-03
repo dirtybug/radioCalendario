@@ -9,8 +9,9 @@ if exist venv (
 
 :: Run the tests using pytest
 echo Running the tests...
-pytest test.py --maxfail=1 --disable-warnings
+pytest test.py --maxfail=1 --disable-warnings -s
 
 :: Notify that the tests are complete
 echo Tests completed. Press any key to close.
+pause
 pause

@@ -5,12 +5,26 @@
     "type": "online",
     "mode": "ssb",
     "frequency": "14.200",
-    "dmrChannel": "111",
-    "date": "2024-11-02T22:00:00.000Z",
-    "enddate": "2024-11-02T22:00:00.000Z",
-    "entity": "oo",
-    "description": "oo",
-    "createdAt": "2024-11-02T22:00:47.611Z",
-    "updatedAt": "2024-11-02T22:00:47.611Z"
+    "dmrChannel": "2",
+    "date": "2024-11-03T00:34:00.000Z",
+    "enddate": "2024-11-03T00:34:00.000Z",
+    "entity": "222",
+    "description": "",
+    "createdAt": "2024-11-03T00:34:52.671Z",
+    "updatedAt": "2024-11-03T00:34:52.671Z"
+  },
+  {
+    "id": 2,
+    "name": "Andrade",
+    "type": "online",
+    "mode": "ssb",
+    "frequency": "14.200",
+    "dmrChannel": "2",
+    "date": "2024-11-04T00:34:00.000Z",
+    "enddate": "2024-11-05T00:34:00.000Z",
+    "entity": "222",
+    "description": "",
+    "createdAt": "2024-11-03T00:35:17.241Z",
+    "updatedAt": "2024-11-03T00:35:17.241Z"
   }
 ]
