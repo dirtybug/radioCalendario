@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+    mode: 'development', // Set mode to development
     entry: './server.js', // Adjust based on your entry file
     output: {
         filename: 'bundle.js',
@@ -27,15 +28,14 @@ module.exports = {
     },
     resolve: {
         fallback: {
-            "path": require.resolve("path-browserify"),
-            "os": require.resolve("os-browserify/browser"),
-            "fs": false,
-            "util": require.resolve("util/"),
-            "url": require.resolve("url/"),
-            "child_process": false,
+            "crypto": require.resolve("crypto-browserify"),
+            "stream": require.resolve("stream-browserify"),
+            "zlib": require.resolve("browserify-zlib"),
+            "assert": require.resolve("assert/"),
+            "async_hooks": false, // If you don't need it, you can set it to false
         },
     },
     stats: {
-        errorDetails: true, // Add this line to show error details
+        errorDetails: true,
     },
 };
