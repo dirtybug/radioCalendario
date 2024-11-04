@@ -37,6 +37,17 @@ jobs:
           destination: ./_site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+      - name: Backend Installation
+        run: |
+          echo "PWD: $(pwd)"
+          ls
+          cd ..
+          echo "Directory Structure:" && find .
+          cd backend
+          npm install
+      - name: Run script
+        run: |  
+          nmp run start
 
 
   # Deployment job
@@ -50,14 +61,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-      - name: Backend Installation
-        run: |
-          echo "PWD: $(pwd)"
-          ls
-          cd ..
-          echo "Directory Structure:" && find .
-          cd backend
-          npm install
-      - name: Run script
-        run: |  
-          nmp run start
+
