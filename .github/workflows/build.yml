@@ -61,3 +61,8 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
+      - name: Start Backend Node.js Server
+        if: ${{ success() }}  # Runs only if deployment succeeds
+        run: |
+          cd backend
+          npm run dev  # Ensure you have a start script defined in package.json
