@@ -1,5 +1,5 @@
-# Workflow for deploying a Jekyll site with a separate Node.js backend job
-name: Deploy Jekyll with Node.js Backend
+# Workflow for deploying frontend and backend to a hosting service
+name: Deploy Frontend and Backend
 
 on:
   push:
@@ -16,63 +16,46 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Build job for Jekyll and Node.js backend
-  build:
+  deploy-frontend:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Code
         uses: actions/checkout@v4
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
+      - name: Build Frontend
+        uses: actions/jekyll-build-pages@v1  # Replace with relevant build command if not using Jekyll
         with:
           source: ./
           destination: ./_site
 
-      - name: Install Node.js dependencies
-        run: |
-          cd backend
-          rm -f package-lock.json
-          npm install --unsafe-perm
-
-      - name: Build Node.js project
-        run: |
-          cd backend
-          npm run build  # Ensure your backend has a build script in package.json
-
-      - name: Upload artifact for GitHub Pages
+      - name: Upload Frontend Artifact
         uses: actions/upload-pages-artifact@v3
 
-  # Deployment job for GitHub Pages
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - name: Deploy Frontend to GitHub Pages
         uses: actions/deploy-pages@v4
 
-  # Separate backend job with a new runner
-  start-backend:
+  deploy-backend:
     runs-on: ubuntu-latest
-    needs: deploy  # This job runs only after the deployment job succeeds
+    needs: deploy-frontend
     steps:
-      - name: Checkout
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Install Node.js dependencies
+      - name: Install Backend Dependencies
         run: |
           cd backend
-          rm -f package-lock.json
-          npm install --unsafe-perm
+          npm install
 
-      - name: Start Backend Node.js Server
+      - name: Build Backend
         run: |
           cd backend
-          npm run dev  # Ensure the start script or dev script is defined in package.json
+          npm run build  # Run build script if needed for backend
+
+      - name: Start Backend
+        run: |
+          cd backend
+          npm start  # Start backend server (will only run during the job session)
+        shell: /usr/bin/bash -e {0}
