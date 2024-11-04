@@ -51,8 +51,8 @@ jobs:
         uses: actions/deploy-pages@v4
       - name: Backend Installation
         run: |
-          ls -la
           cd backend
+          ls -la
           npm install
       - name: Run script
         run: |  
