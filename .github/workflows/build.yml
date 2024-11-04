@@ -54,6 +54,7 @@ jobs:
         run: |
           echo "PWD: $(pwd)"
           ls
+          cd ..
           echo "Directory Structure:" && find .
           cd backend
           npm install
