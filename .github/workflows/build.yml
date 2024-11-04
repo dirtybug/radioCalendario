@@ -1,55 +1,52 @@
-# Sample workflow for building and deploying a Jekyll site to GitHub Pages
-name: Deploy Jekyll with GitHub Pages dependencies preinstalled
+# Workflow for deploying a Jekyll site with a separate Node.js backend job
+name: Deploy Jekyll with Node.js Backend
 
 on:
-  # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  # Build job
+  # Build job for Jekyll and Node.js backend
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./
           destination: ./_site
-      - name: Install dependencies
+
+      - name: Install Node.js dependencies
         run: |
-            cd backend  # Change to the backend directory
-            rm -f package-lock.json  # Remove the existing lock file
-            npm install --unsafe-perm  # Install packages
-      - name: Build project
+          cd backend
+          rm -f package-lock.json
+          npm install --unsafe-perm
+
+      - name: Build Node.js project
         run: |
-            cd backend  # Change to the backend directory
-            npm run build  # Make sure you have a build script defined
-      - name: Upload artifact
+          cd backend
+          npm run build  # Ensure your backend has a build script in package.json
+
+      - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v3
 
-
-
-  # Deployment job
+  # Deployment job for GitHub Pages
   deploy:
     environment:
       name: github-pages
@@ -61,8 +58,21 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-      - name: Start Backend Node.js Server
-        if: ${{ success() }}  # Runs only if deployment succeeds
+  # Separate backend job with a new runner
+  start-backend:
+    runs-on: ubuntu-latest
+    needs: deploy  # This job runs only after the deployment job succeeds
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node.js dependencies
         run: |
           cd backend
-          npm run dev  # Ensure you have a start script defined in package.json
+          rm -f package-lock.json
+          npm install --unsafe-perm
+
+      - name: Start Backend Node.js Server
+        run: |
+          cd backend
+          npm run dev  # Ensure the start script or dev script is defined in package.json
