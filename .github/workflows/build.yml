@@ -53,7 +53,8 @@ jobs:
       - name: Backend Installation
         run: |
           echo "PWD: $(pwd)"
-          ls -la
+          ls
+          cd backend
           npm install
       - name: Run script
         run: |  
