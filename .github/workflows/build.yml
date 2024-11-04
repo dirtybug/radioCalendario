@@ -54,6 +54,5 @@ jobs:
           cd ./backend
           npm install
       - name: Run script
-        run: |
-          cd ./backend  
+        run: |  
           nmp run start
