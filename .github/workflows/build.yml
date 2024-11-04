@@ -50,7 +50,7 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
       - name: Backend Installation
-       -run: |
+        run: |
           cd ./backend
           npm install
       - name: Run script
