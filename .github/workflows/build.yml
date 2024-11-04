@@ -57,5 +57,5 @@ jobs:
       - name: Start Backend
         run: |
           cd backend
-          npm start  # Start backend server (will only run during the job session)
+          #npm start  # Start backend server (will only run during the job session)
         shell: /usr/bin/bash -e {0}
